@@ -1,5 +1,4 @@
 const express = require("express");
-const { findMovieByImdbId } = require("../models/movie");
 const Movie = require("../models/movie");
 
 const router = express.Router();
@@ -47,4 +46,3 @@ router.post("/", (req, res) => {
 });
 
 module.exports = router;
-
