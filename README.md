@@ -6,9 +6,9 @@ A full-stack database backed express application, where users can search,like an
 
 ## Demonstration
 
-<a href="">Link to website</a>
+<a href="https://arcane-fjord-68442.herokuapp.com/">Link to website</a>com
 
-<p><img src="/demo/" width='500px' style="text-align:center;"></p>
+<p><img src="/demo/homepage.png" width='500px' style="text-align:center;"><img src="/demo/comments.png" width='500px' style="text-align:center;"></p>
 
 ## plan / approach
 
@@ -23,8 +23,6 @@ The Slimy app is a SPA(single page application ) but presents three different pa
 ### 2- Database diagram
 
 The database schema consists of 3 tables.The schema was thoroughly planned to make the development process as smooth as possible. The Database diagram shows the relationship between all entities in the database.
-
-<p><img src="/demo/" width='500px' style="text-align:center;"></p>
 
 ### 3- Backend Development
 
