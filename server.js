@@ -10,7 +10,7 @@ const reviewsController = require("./controllers/reviews_controller");
 // const favoritesController = require("./controllers/favorites_controller")
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => console.log(`server listening on port ${port}`));
 
