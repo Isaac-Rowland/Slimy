@@ -54,7 +54,7 @@ function renderMovieList() {
             const movie = res.data;
             axios.post("/api/movies", movie);
           });
-        if(!!state.user.userName){
+        if (!!state.user.userName) {
           return `
             <div>
               <span id="favorite-btn" class="material-icons" onClick="renderFavoriteButton(event, '${imdbId}')">favorite_border</span>
@@ -62,26 +62,25 @@ function renderMovieList() {
               <img src='${posterUrl}' onClick="renderMovieDetail('${imdbId}')">
             </div>
           `;
-        }
-        else {
+        } else {
           return `
                 <div>
                 <h3>${title}</h3>
                 <img src='${posterUrl}' onClick="renderMovieDetail('${imdbId}')">
                 </div>
               `;
-        }  
+        }
       }).join("");
-      document.querySelector(".movies-default").innerHTML = movieList; 
-    })
+      document.querySelector(".movies-default").innerHTML = movieList;
+    });
 }
 
 function renderMovieDetail(imdbId) {
   axios.get(`/api/movies/${imdbId}`).then((res) => {
     const movie = res.data;
-    let favoriteIconDOM = ''
-    if(!!state.user.userName){
-      favoriteIconDOM = 'favorite_border'
+    let favoriteIconDOM = "";
+    if (!!state.user.userName) {
+      favoriteIconDOM = "favorite_border";
     }
     const movieDetail = `
         <div>
@@ -97,15 +96,15 @@ function renderMovieDetail(imdbId) {
         </div>
         <section id=reviews-box><div class="reviews-div"></div></section>
         <form id="add-comment" onSubmit='createReviewsMovie(event, ${state.user.userId}, ${movie.id})'>
+        <div class="rating">
+          <i class="rating__star far fa-star"></i>
+          <i class="rating__star far fa-star"></i>
+          <i class="rating__star far fa-star"></i>
+          <i class="rating__star far fa-star"></i>
+          <i class="rating__star far fa-star"></i>
+        </div>
           <fieldset>
             <label for="">comment:</label>
-            <div class="rating">
-              <i class="rating__star far fa-star"></i>
-              <i class="rating__star far fa-star"></i>
-              <i class="rating__star far fa-star"></i>
-              <i class="rating__star far fa-star"></i>
-              <i class="rating__star far fa-star"></i>
-            </div>
             <section class="error"></section>
             ​<textarea id="txtArea" rows="10" cols="45" name="comment"></textarea>
           </fieldset>
@@ -114,6 +113,36 @@ function renderMovieDetail(imdbId) {
       `;
     document.querySelector(".movies-default").innerHTML = movieDetail;
     renderMovieReviews(movie.id);
+    const ratingStars = [...document.getElementsByClassName("rating__star")];
+    rating(ratingStars, movie.id, state.user.userId);
+    function rating(stars, movieId, userId) {
+      const starClassActive = "rating__star fas fa-star";
+      const starClassInactive = "rating__star far fa-star";
+      const starsLength = stars.length;
+      let i;
+      stars.map((star) => {
+        star.onclick = () => {
+          i = stars.indexOf(star);
+
+          if (star.className === starClassInactive) {
+            for (i; i >= 0; --i) stars[i].className = starClassActive;
+          } else {
+            for (i; i < starsLength; ++i)
+              stars[i].className = starClassInactive;
+          }
+          const rating = document.querySelectorAll(".rating .fas").length;
+          const data = { movieId, userId, rating };
+          console.log(data);
+          axios
+            .put(`/api/reviews`, data)
+            .then((res) => res.data)
+            .catch((error) => {
+              let errorDOM = document.querySelector(".movies-default .error");
+              errorDOM.textContent = error.response.data.message;
+            });
+        };
+      });
+    }
   });
 }
 
@@ -138,7 +167,8 @@ function renderMovieReviews(movieId) {
         .join("");
       // }
 
-      document.querySelector("#reviews-box .reviews-div").innerHTML = reviewsBox;
+      document.querySelector("#reviews-box .reviews-div").innerHTML =
+        reviewsBox;
     });
 }
 
@@ -150,34 +180,12 @@ function createReviewsMovie(event, userId, movieId) {
   data.movieId = movieId;
   // data.rating = rating;
   console.log(data);
-  axios.post("/api/reviews", data)
+  axios
+    .post("/api/reviews", data)
     .then((res) => res.data)
     .then(() => renderMovieReviews(movieId))
     .catch((error) => {
-      let errorDOM = document.querySelector('.movies-default .error')
+      let errorDOM = document.querySelector(".movies-default .error");
       errorDOM.textContent = error.response.data.message;
-    })
+    });
 }
-
-const ratingStars = [...document.getElementsByClassName("rating__star")];
-    function rating(stars) {
-        
-    const starClassActive = "rating__star fas fa-star";
-    const starClassInactive = "rating__star far fa-star";
-    const starsLength = stars.length;
-    let i;
-
-    stars.map((star) => {
-      star.onclick = () => {
-         i = stars.indexOf(star);
-
-         if (star.className===starClassInactive) {        
-            for (i; i >= 0; --i) stars[i].className = starClassActive;
-         } else {
-            for (i; i < starsLength; ++i) stars[i].className = starClassInactive;
-         }
-      };
-   });
-   }
-
-   rating(ratingStars);
