@@ -95,6 +95,13 @@ function renderMovieDetail(imdbId) {
 
         </div>
         <section id=reviews-box><div class="reviews-div"></div></section>
+        <div class="rating">
+        <i class="rating__star far fa-star"></i>
+        <i class="rating__star far fa-star"></i>
+        <i class="rating__star far fa-star"></i>
+        <i class="rating__star far fa-star"></i>
+        <i class="rating__star far fa-star"></i>
+       </div>
         <form id="add-comment" onSubmit='createReviewsMovie(event, ${state.user.userId}, ${movie.id})'>
         <div class="rating">
           <i class="rating__star far fa-star"></i>
@@ -105,6 +112,7 @@ function renderMovieDetail(imdbId) {
         </div>
           <fieldset>
             <label for="">comment:</label>
+           
             <section class="error"></section>
             ​<textarea id="txtArea" rows="10" cols="45" name="comment"></textarea>
           </fieldset>
