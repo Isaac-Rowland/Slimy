@@ -6,7 +6,7 @@ A full-stack database backed express application, where users can search,like an
 
 ## Demonstration
 
-<a href="https://slimyapp.herokuapp.com/">Link to website</a>
+<a href="https://slimy-production.up.railway.app/">Link to website</a>
 
 <p><img src="/demo/homepage.png" width='500px' style="text-align:center;"><img src="/demo/comments.png" width='500px' style="text-align:center;"></p>
 
