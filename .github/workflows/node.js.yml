@@ -29,3 +29,7 @@ jobs:
     - run: npm install
     - name: Deploy GitHub Pages site
       uses: actions/deploy-pages@v2.0.0
+permissions:
+    id-token: write
+    contents: write              # This is required for actions/checkout@v1
+    security-events: write   # To upload sarif files
